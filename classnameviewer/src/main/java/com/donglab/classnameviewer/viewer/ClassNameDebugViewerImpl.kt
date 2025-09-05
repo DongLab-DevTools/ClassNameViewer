@@ -9,7 +9,7 @@ import com.donglab.classnameviewer.config.ClassNameDebugViewerConfig
 import com.donglab.classnameviewer.config.ClassNameViewerSettings
 import com.donglab.classnameviewer.overlay.ClassNameDebugOverlayManager
 
-class ClassNameDebugViewerImpl(
+internal class ClassNameDebugViewerImpl(
     private val activity: ComponentActivity,
     private val overlayManager: ClassNameDebugOverlayManager,
     private val config: ClassNameDebugViewerConfig,

@@ -8,7 +8,7 @@ import com.donglab.classnameviewer.viewer.ClassNameDebugViewer
 import com.donglab.classnameviewer.viewer.ClassNameDebugViewerImpl
 import java.lang.ref.WeakReference
 
-object ClassNameViewerFactory {
+internal object ClassNameViewerFactory {
     
     /**
      * 설정을 받아 ClassNameDebugViewer를 생성합니다.

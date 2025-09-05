@@ -19,7 +19,7 @@ import com.donglab.classnameviewer.config.ClassNameDebugViewerConfig
 import com.donglab.classnameviewer.util.dp
 import java.lang.ref.WeakReference
 
-class ClassNameDebugOverlayManager(
+internal class ClassNameDebugOverlayManager(
     private val activityRef: WeakReference<Activity>,
 ) {
 
