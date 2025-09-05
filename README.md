@@ -1,5 +1,9 @@
 # ClassNameViewer
 
+<div>
+  <details open>
+    <summary><b>한국어(Korean)</b></summary>
+    
 개발 중인 안드로이드 앱에서 현재 Activity와 Fragment의 클래스명을 화면에 오버레이로 표시해주는 디버그 라이브러리입니다.
 
 ## 개요
@@ -175,3 +179,189 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+  </details>
+</div>
+
+<div>
+  <details>
+    <summary><b>English</b></summary>
+
+A lightweight Android debug library that displays Activity and Fragment class names as screen overlays during development.
+
+## Overview
+
+ClassNameViewer displays the class names of currently visible Activities and Fragments in real-time on screen.
+
+It significantly improves debugging and development efficiency in apps with complex Fragment structures or frequent screen transitions.
+
+## Features
+
+- **Real-time class name display**: Shows Activity and Fragment class names on screen in real-time
+- **Automatic lifecycle management**: Automatically tracks all Activities and Fragments at the Application level
+- **Debug-only**: Automatically disabled in release builds for safety
+- **UI customization**: Freely configure text size, color, position, etc.
+- **Memory safe**: Prevents memory leaks using WeakReference
+- **Touch interaction**: Touch overlay to show full class name in toast
+
+## Installation
+
+Add the library to your project:
+
+```kotlin
+dependencies {
+    implementation 'com.donglab:classnameviewer:1.0.0'
+}
+```
+
+## Usage
+
+### Initialize in Application class (Recommended)
+
+Set up once and all Activities and Fragments will be automatically tracked:
+
+```kotlin
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        
+        val settings = ClassNameViewerSettings(
+            debugModeProvider = { BuildConfig.DEBUG },
+            enabledProvider = { true }
+        )
+        
+        val lifecycleHandler = ClassNameDebugLifecycleHandler(settings)
+        registerActivityLifecycleCallbacks(lifecycleHandler)
+    }
+}
+```
+
+## Configuration
+
+### UI Customization
+
+```kotlin
+val config = ClassNameDebugViewerConfig(
+    textSize = 12f,                              // Text size
+    textColor = Color.WHITE,                     // Text color
+    backgroundColor = Color.argb(128, 0, 0, 0),  // Background color
+    padding = 16,                                // Padding
+    topMargin = 64,                              // Top margin
+    activityGravity = Gravity.TOP or Gravity.START,  // Activity display position
+    fragmentGravity = Gravity.TOP or Gravity.END     // Fragment display position
+)
+
+val lifecycleHandler = ClassNameDebugLifecycleHandler(settings, config)
+```
+
+### Conditional Activation
+
+```kotlin
+val settings = ClassNameViewerSettings(
+    debugModeProvider = { BuildConfig.DEBUG },
+    enabledProvider = { 
+        // Can be toggled at runtime via SharedPreferences
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean("debug_overlay_enabled", true)
+    }
+)
+```
+
+## API Reference
+
+### ClassNameDebugLifecycleHandler
+
+Handler that automatically manages all Activities/Fragments at the Application level.
+
+```kotlin
+class ClassNameDebugLifecycleHandler(
+    private val settings: ClassNameViewerSettings,
+    private val config: ClassNameDebugViewerConfig = ClassNameDebugViewerConfig.defaultConfig()
+)
+```
+
+### ClassNameViewerFactory
+
+Factory class for creating ClassNameDebugViewer instances.
+
+```kotlin
+fun create(
+    activity: ComponentActivity,
+    settings: ClassNameViewerSettings,
+    config: ClassNameDebugViewerConfig = ClassNameDebugViewerConfig.defaultConfig()
+): ClassNameDebugViewer
+```
+
+### ClassNameDebugViewer
+
+Main interface for managing debug overlays.
+
+```kotlin
+interface ClassNameDebugViewer {
+    fun initialize()                    // Initialize
+    fun registerFragment(fragment: Fragment)  // Register Fragment
+    fun clear()                        // Clear overlay
+}
+```
+
+### ClassNameViewerSettings
+
+Class for configuring activation conditions.
+
+```kotlin
+data class ClassNameViewerSettings(
+    val debugModeProvider: () -> Boolean,  // Check debug mode
+    val enabledProvider: () -> Boolean     // Check if enabled
+)
+```
+
+### ClassNameDebugViewerConfig
+
+UI configuration options.
+
+```kotlin
+data class ClassNameDebugViewerConfig(
+    val textSize: Float,        // Text size
+    val textColor: Int,         // Text color
+    val backgroundColor: Int,   // Background color
+    val padding: Int,           // Padding
+    val topMargin: Int,         // Top margin
+    val activityGravity: Int,   // Activity display position
+    val fragmentGravity: Int    // Fragment display position
+)
+```
+
+## System Requirements
+
+- Android API 21+
+- Kotlin 1.9+
+- AndroidX Activity & Fragment libraries
+
+## License
+
+```
+MIT License
+
+Copyright (c) 2024 DongLab
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+  </details>
+</div>
