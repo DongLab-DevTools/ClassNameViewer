@@ -12,7 +12,7 @@ android {
         minSdk = 21
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,7 +29,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
-        freeCompilerArgs += "-Xcontext-receivers" // 컨텍스트 수신자 컴파일러 옵션 추가
     }
 }
 
