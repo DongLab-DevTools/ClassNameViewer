@@ -161,8 +161,11 @@ class MyApplication : Application() {
         super.onCreate()
         
         val settings = ClassNameViewerSettings(
-            debugModeProvider = { BuildConfig.DEBUG },
-            enabledProvider = { true }
+            debugModeCondition = { BuildConfig.DEBUG },
+            enabledCondition = { 
+                PreferenceManager.getDefaultSharedPreferences(this)
+                    .getBoolean("debug_overlay_enabled", true)
+            }
         )
         
         val lifecycleHandler = ClassNameDebugLifecycleHandler(settings)
@@ -188,25 +191,21 @@ val config = ClassNameDebugViewerConfig(
 
 val lifecycleHandler = ClassNameDebugLifecycleHandler(settings, config)
 ```
+You can customize the style of the overlay that will be displayed on screen.
 
-### Conditional Activation
+### Activation Condition Injection
 
 ```kotlin
 val settings = ClassNameViewerSettings(
-    debugModeProvider = { BuildConfig.DEBUG },
-    enabledProvider = { 
-        // Can be toggled at runtime via SharedPreferences
+    debugModeCondition = { BuildConfig.DEBUG },
+    enabledCondition = { 
         PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean("debug_overlay_enabled", true)
     }
 )
 ```
-
-## System Requirements
-
-- Android API 21+
-- Kotlin 1.9+
-- AndroidX Activity & Fragment libraries
+- `debugModeCondition`: Injects debug mode condition.
+- `enabledCondition`: Injects overlay feature activation condition.
 
 ## License
 
