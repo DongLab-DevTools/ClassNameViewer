@@ -4,12 +4,12 @@ package com.donglab.classnameviewer.config
  * ClassNameViewer의 활성화 조건을 정의하는 설정 클래스
  */
 data class ClassNameViewerSettings(
-    val debugModeProvider: () -> Boolean,
-    val enabledProvider: () -> Boolean
+    val debugModeCondition: () -> Boolean,
+    val enabledCondition: () -> Boolean
 ) {
     val isDebugMode: Boolean
-        get() = debugModeProvider()
+        get() = debugModeCondition()
     
     val isEnabled: Boolean
-        get() = isDebugMode && enabledProvider()
+        get() = isDebugMode && enabledCondition()
 }
