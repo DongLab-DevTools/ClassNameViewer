@@ -71,24 +71,27 @@ val config = ClassNameDebugViewerConfig(
 val lifecycleHandler = ClassNameDebugLifecycleHandler(settings, config)
 ```
 
-### 조건부 활성화
+### 활성화 조건 주입
 
 ```kotlin
 val settings = ClassNameViewerSettings(
-    debugModeProvider = { BuildConfig.DEBUG },
-    enabledProvider = { 
-        // SharedPreferences로 런타임에 켜고 끌 수 있음
+    debugModeCondition = { BuildConfig.DEBUG },
+    enabledCondition = { 
         PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean("debug_overlay_enabled", true)
     }
 )
 ```
+- `debudModeCondition`: 디버그 모드 조건을 주입합니다.
+- `enabledCondition`: 오버레이 기능 활성화 조건을 주입합니다. 
+
 
 ## 시스템 요구사항
 
 - Android API 21 이상
 - Kotlin 1.9 이상
 - AndroidX Activity & Fragment 라이브러리
+
 
 ## 라이선스
 
