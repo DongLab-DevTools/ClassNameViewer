@@ -1,5 +1,10 @@
 # ClassNameViewer
 
+> [!NOTE]
+> 곧 Jitpack으로 배포될 예정입니다.  
+> 배포 전 해당 라이브러리 사용을 희망하는 경우 aar 파일을 이용해주세요.
+
+
 <div>
   <details open>
     <summary><b>한국어(Korean)</b></summary>
