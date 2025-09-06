@@ -33,7 +33,7 @@ dependencies {
 
 ## 사용법
 
-### Application 클래스에서 초기화 (권장)
+### Application 클래스에서 초기화
 
 한 번만 설정하면 모든 Activity와 Fragment가 자동으로 추적됩니다:
 
@@ -43,8 +43,11 @@ class MyApplication : Application() {
         super.onCreate()
         
         val settings = ClassNameViewerSettings(
-            debugModeProvider = { BuildConfig.DEBUG },
-            enabledProvider = { true }
+            debugModeCondition = { BuildConfig.DEBUG },
+            enabledCondition = { 
+                PreferenceManager.getDefaultSharedPreferences(this)
+                    .getBoolean("debug_overlay_enabled", true)
+            }
         )
         
         val lifecycleHandler = ClassNameDebugLifecycleHandler(settings)
@@ -70,6 +73,7 @@ val config = ClassNameDebugViewerConfig(
 
 val lifecycleHandler = ClassNameDebugLifecycleHandler(settings, config)
 ```
+화면에 표시될 오버레이의 스타일을 커스텀할 수 있습니다.
 
 ### 활성화 조건 주입
 
@@ -84,14 +88,6 @@ val settings = ClassNameViewerSettings(
 ```
 - `debudModeCondition`: 디버그 모드 조건을 주입합니다.
 - `enabledCondition`: 오버레이 기능 활성화 조건을 주입합니다. 
-
-
-## 시스템 요구사항
-
-- Android API 21 이상
-- Kotlin 1.9 이상
-- AndroidX Activity & Fragment 라이브러리
-
 
 ## 라이선스
 
