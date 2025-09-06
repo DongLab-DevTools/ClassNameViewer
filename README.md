@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > 곧 Jitpack으로 배포될 예정입니다.  
-> 배포 전 해당 라이브러리 사용을 희망하는 경우 aar 파일을 이용해주세요.
+> 배포 전 해당 라이브러리 사용을 희망하는 경우 [aar 파일](https://github.com/DongLab-DevTools/ClassNameViewer/tree/64ac976f27746ee806565e8d63d169c75994b71e/aar)을 이용해주세요.
 
 
 <div>
