@@ -94,7 +94,7 @@ val settings = ClassNameViewerSettings(
 ```
 MIT License
 
-Copyright (c) 2024 DongLab
+Copyright (c) 2025 DongLab-DevTools
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -212,7 +212,7 @@ val settings = ClassNameViewerSettings(
 ```
 MIT License
 
-Copyright (c) 2024 DongLab
+Copyright (c) 2025 DongLab-DevTools
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
