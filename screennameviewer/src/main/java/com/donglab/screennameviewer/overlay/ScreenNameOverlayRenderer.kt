@@ -126,8 +126,9 @@ internal class ScreenNameOverlayRenderer(
      * Custom Label 관련 메서드들
      */
     fun addCustomLabel(label: String) {
-        val context: Context = activity ?: return
-        addTextViewToLayout(context, label, OverlayType.CUSTOM_LABEL)
+        activity?.let {
+            addTextViewToLayout(it, label, OverlayType.CUSTOM_LABEL)
+        }
     }
 
     fun removeCustomLabel(label: String) {
