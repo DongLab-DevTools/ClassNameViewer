@@ -1,17 +1,11 @@
 package com.donglab.screennameviewer.overlay
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
-import android.util.TypedValue
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.view.setPadding
 import com.donglab.screennameviewer.config.ScreenNameOverlayConfig
 import com.donglab.screennameviewer.util.dp
 import com.donglab.screennameviewer.util.getStatusBarHeight
@@ -32,39 +26,94 @@ internal class ScreenNameOverlayRenderer(
         activity?.getStatusBarHeight() ?: 0
     }
 
-    private val params
-        get() = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            topMargin = statusBarHeight + config.topMargin.dp
-        }
-
     private var activityNameTextView: TextView? = null
     private var fragmentTextViewLayout: LinearLayout? = null
     private var customLabelLayout: LinearLayout? = null
     private lateinit var config: ScreenNameOverlayConfig
+    
+    private val layoutContainer by lazy {
+        OverlayLayoutContainer(decorView, activity)
+    }
+    
+    private val textViewBuilder by lazy {
+        StyledTextViewBuilder(config)
+    }
+
+    private enum class OverlayType {
+        ACTIVITY, FRAGMENT, CUSTOM_LABEL;
+        
+        fun getGravity(config: ScreenNameOverlayConfig): Int = when (this) {
+            ACTIVITY -> config.activityGravity
+            FRAGMENT -> config.fragmentGravity
+            CUSTOM_LABEL -> config.customLabelGravity
+        }
+    }
 
     fun initialize(config: ScreenNameOverlayConfig) {
         this.config = config
     }
 
-    fun removeFragmentName(name: String) {
-        fragmentTextViewLayout?.findViewWithTag<View>(name)?.let {
-            fragmentTextViewLayout?.removeView(it)
+    private fun getOrCreateLayout(type: OverlayType): LinearLayout? {
+        return when (type) {
+            OverlayType.FRAGMENT -> {
+                if (fragmentTextViewLayout == null) {
+                    val topMargin = statusBarHeight + config.topMargin.dp
+                    fragmentTextViewLayout = layoutContainer.createContainer(
+                        gravity = type.getGravity(config),
+                        topMargin = topMargin
+                    )
+                }
+                fragmentTextViewLayout
+            }
+            OverlayType.CUSTOM_LABEL -> {
+                if (customLabelLayout == null) {
+                    val topMargin = statusBarHeight + config.topMargin.dp
+                    customLabelLayout = layoutContainer.createContainer(
+                        gravity = type.getGravity(config),
+                        topMargin = topMargin
+                    )
+                }
+                customLabelLayout
+            }
+            OverlayType.ACTIVITY -> null // Activity doesn't use LinearLayout
         }
+    }
+
+    private fun addTextViewToLayout(context: Context, name: String, type: OverlayType) {
+        val layout = getOrCreateLayout(type) ?: return
+        val textView = textViewBuilder.build(context, name)
+        layoutContainer.addTextView(layout, textView)
+    }
+
+    private fun removeTextViewFromLayout(name: String, type: OverlayType) {
+        val layout = when (type) {
+            OverlayType.FRAGMENT -> fragmentTextViewLayout
+            OverlayType.CUSTOM_LABEL -> customLabelLayout
+            OverlayType.ACTIVITY -> return // Activity doesn't use this pattern
+        }
+        
+        layoutContainer.removeTextView(layout, name)
+    }
+
+    fun removeFragmentName(name: String) {
+        removeTextViewFromLayout(name, OverlayType.FRAGMENT)
     }
 
     fun addActivityName(name: String) {
         val context: Context = activity ?: return
-        val activityParams = params.apply {
-            gravity = config.activityGravity
-        }
-
+        
         if (activityNameTextView != null) {
             activityNameTextView?.text = name
         } else {
-            activityNameTextView = createClassNameTextView(context, name).apply {
+            val activityParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = statusBarHeight + config.topMargin.dp
+                gravity = OverlayType.ACTIVITY.getGravity(config)
+            }
+            
+            activityNameTextView = textViewBuilder.build(context, name).apply {
                 decorView?.addView(this, activityParams)
             }
         }
@@ -72,22 +121,9 @@ internal class ScreenNameOverlayRenderer(
 
     fun addFragmentName(name: String) {
         val context: Context = activity ?: return
-        val fragmentLayout = getOrCreateFragmentTextViewLayout()
-        val isExist = fragmentLayout?.findViewWithTag<TextView>(name) != null
-
-        if (!isExist) {
-            createClassNameTextView(context, name).let { textView ->
-                fragmentLayout?.addView(textView)
-            }
-        }
+        addTextViewToLayout(context, name, OverlayType.FRAGMENT)
     }
 
-    private fun getOrCreateFragmentTextViewLayout(): LinearLayout? {
-        if (fragmentTextViewLayout == null) {
-            setFragmentNameLayout()
-        }
-        return fragmentTextViewLayout
-    }
 
     fun clearOverlay() {
         decorView?.let { decor ->
@@ -100,86 +136,15 @@ internal class ScreenNameOverlayRenderer(
         customLabelLayout = null
     }
 
-    private fun setFragmentNameLayout() {
-        if (fragmentTextViewLayout != null || activity == null) return
-
-        val fragmentParams = params.apply {
-            gravity = config.fragmentGravity
-        }
-
-        fragmentTextViewLayout = LinearLayout(activity).apply {
-            orientation = LinearLayout.VERTICAL
-            setBackgroundColor(Color.TRANSPARENT)
-        }.also {
-            decorView?.addView(it, fragmentParams)
-        }
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun createClassNameTextView(context: Context, className: String): TextView {
-        return TextView(context).apply {
-            text = className
-            tag = className
-
-            with(config) {
-                setTextColor(textColor)
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize)
-                setBackgroundColor(backgroundColor)
-                setPadding(padding)
-            }
-
-            setOnTouchListener { _, _ ->
-                Toast.makeText(context, className, Toast.LENGTH_SHORT).show()
-                parent?.requestDisallowInterceptTouchEvent(false)
-                false
-            }
-        }
-    }
-
     /**
      * Custom Label 관련 메서드들
      */
     fun addCustomLabel(label: String) {
         val context: Context = activity ?: return
-        val customLayout = getOrCreateCustomLabelLayout()
-        val isExist = customLayout?.findViewWithTag<TextView>(label) != null
-
-        if (!isExist) {
-            createClassNameTextView(context, label).let { textView ->
-                customLayout?.addView(textView)
-            }
-        }
+        addTextViewToLayout(context, label, OverlayType.CUSTOM_LABEL)
     }
 
     fun removeCustomLabel(label: String) {
-        customLabelLayout?.findViewWithTag<View>(label)?.let {
-            customLabelLayout?.removeView(it)
-        }
-    }
-
-    private fun getOrCreateCustomLabelLayout(): LinearLayout? {
-        if (customLabelLayout == null) {
-            setCustomLabelLayout()
-        }
-        return customLabelLayout
-    }
-
-    private fun setCustomLabelLayout() {
-        if (customLabelLayout != null || activity == null) return
-
-        val customParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            topMargin = statusBarHeight + config.topMargin.dp
-            gravity = config.customLabelGravity
-        }
-
-        customLabelLayout = LinearLayout(activity).apply {
-            orientation = LinearLayout.VERTICAL
-            setBackgroundColor(Color.TRANSPARENT)
-        }.also {
-            decorView?.addView(it, customParams)
-        }
+        removeTextViewFromLayout(label, OverlayType.CUSTOM_LABEL)
     }
 }
