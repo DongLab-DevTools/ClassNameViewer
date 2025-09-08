@@ -1,4 +1,4 @@
-package com.donglab.classnameviewer.lifecycle
+package com.donglab.screennameviewer.lifecycle
 
 import android.app.Activity
 import android.app.Application.ActivityLifecycleCallbacks
@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
-import com.donglab.classnameviewer.config.ScreenNameOverlayConfig
-import com.donglab.classnameviewer.config.ScreenNameViewerSetting
-import com.donglab.classnameviewer.factory.ScreenNameViewerFactory
-import com.donglab.classnameviewer.viewer.ScreenNameViewer
+import com.donglab.screennameviewer.config.ScreenNameOverlayConfig
+import com.donglab.screennameviewer.config.ScreenNameViewerSetting
+import com.donglab.screennameviewer.factory.ScreenNameViewerFactory
+import com.donglab.screennameviewer.viewer.ScreenNameViewer
 
 class ScreenNameViewerLifecycleHandler(
     private val settings: ScreenNameViewerSetting,
@@ -21,7 +21,7 @@ class ScreenNameViewerLifecycleHandler(
 
     init {
         require(settings.isDebugMode) {
-            "ClassNameDebugLifecycleHandler should only be used in debug builds"
+            "ScreenNameViewer should only be used in debug builds"
         }
     }
 

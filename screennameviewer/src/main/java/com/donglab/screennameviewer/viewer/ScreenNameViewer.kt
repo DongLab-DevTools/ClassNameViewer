@@ -1,4 +1,4 @@
-package com.donglab.classnameviewer.viewer
+package com.donglab.screennameviewer.viewer
 
 import androidx.fragment.app.Fragment
 

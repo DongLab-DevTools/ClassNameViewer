@@ -1,4 +1,4 @@
-package com.donglab.classnameviewer.config
+package com.donglab.screennameviewer.config
 
 import android.graphics.Color
 import android.view.Gravity

@@ -1,4 +1,4 @@
-package com.donglab.classnameviewer.overlay
+package com.donglab.screennameviewer.overlay
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,8 +15,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.setPadding
-import com.donglab.classnameviewer.config.ScreenNameOverlayConfig
-import com.donglab.classnameviewer.util.dp
+import com.donglab.screennameviewer.config.ScreenNameOverlayConfig
+import com.donglab.screennameviewer.util.dp
 import java.lang.ref.WeakReference
 
 internal class ScreenNameOverlayRenderer(

@@ -1,8 +1,8 @@
-# ClassNameViewer
+# ScreenNameViewer
 
 > [!NOTE]
-> 곧 Jitpack으로 배포될 예정입니다.  
-> 배포 전 해당 라이브러리 사용을 희망하는 경우 [aar 파일](https://github.com/DongLab-DevTools/ClassNameViewer/tree/64ac976f27746ee806565e8d63d169c75994b71e/aar)을 이용해주세요.
+> 해당 라이브러리는 곧 배포될 예정입니다.  
+> 배포 전 해당 라이브러리 사용을 희망하는 경우 [aar 파일](https://github.com/DongLab-DevTools/ScreenNameViewer/tree/64ac976f27746ee806565e8d63d169c75994b71e/aar)을 이용해주세요.
 
 
 <div>
@@ -13,7 +13,7 @@
 
 ## 개요
 
-ClassNameViewer는 현재 화면에 보이는 Activity와 Fragment의 클래스명을 실시간으로 화면에 표시하는 도구입니다.
+ScreenNameViewer 현재 화면에 보이는 Activity와 Fragment의 클래스명을 실시간으로 화면에 표시하는 도구입니다.
 
 복잡한 Fragment 구조나 화면 전환이 많은 앱에서 디버깅과 개발 효율성을 크게 향상시킵니다.
 
@@ -32,7 +32,7 @@ ClassNameViewer는 현재 화면에 보이는 Activity와 Fragment의 클래스�
 
 ```kotlin
 dependencies {
-    implementation 'com.donglab:classnameviewer:1.0.0'
+    implementation 'com.donglab:screennameviewer:1.0.0'
 }
 ```
 
@@ -47,7 +47,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         
-        val settings = ClassNameViewerSettings(
+        val settings = ScreenNameViewerSetting(
             debugModeCondition = { BuildConfig.DEBUG },
             enabledCondition = { 
                 PreferenceManager.getDefaultSharedPreferences(this)
@@ -55,7 +55,7 @@ class MyApplication : Application() {
             }
         )
         
-        val lifecycleHandler = ClassNameDebugLifecycleHandler(settings)
+        val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings)
         registerActivityLifecycleCallbacks(lifecycleHandler)
     }
 }
@@ -66,7 +66,7 @@ class MyApplication : Application() {
 ### UI 커스터마이징
 
 ```kotlin
-val config = ClassNameDebugViewerConfig(
+val config = ScreenNameOverlayConfig(
     textSize = 12f,                              // 텍스트 크기
     textColor = Color.WHITE,                     // 텍스트 색상
     backgroundColor = Color.argb(128, 0, 0, 0),  // 배경색
@@ -76,14 +76,14 @@ val config = ClassNameDebugViewerConfig(
     fragmentGravity = Gravity.TOP or Gravity.END     // Fragment 표시 위치
 )
 
-val lifecycleHandler = ClassNameDebugLifecycleHandler(settings, config)
+val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings, config)
 ```
 화면에 표시될 오버레이의 스타일을 커스텀할 수 있습니다.
 
 ### 활성화 조건 주입
 
 ```kotlin
-val settings = ClassNameViewerSettings(
+val settings = ScreenNameViewerConfig(
     debugModeCondition = { BuildConfig.DEBUG },
     enabledCondition = { 
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -131,7 +131,7 @@ A lightweight Android debug library that displays Activity and Fragment class na
 
 ## Overview
 
-ClassNameViewer displays the class names of currently visible Activities and Fragments in real-time on screen.
+ScreenNameViewer displays the class names of currently visible Activities and Fragments in real-time on screen.
 
 It significantly improves debugging and development efficiency in apps with complex Fragment structures or frequent screen transitions.
 
@@ -150,7 +150,7 @@ Add the library to your project:
 
 ```kotlin
 dependencies {
-    implementation 'com.donglab:classnameviewer:1.0.0'
+    implementation 'com.donglab:screennameviewer:1.0.0'
 }
 ```
 
@@ -165,7 +165,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         
-        val settings = ClassNameViewerSettings(
+        val settings = ScreenNameViewerSetting(
             debugModeCondition = { BuildConfig.DEBUG },
             enabledCondition = { 
                 PreferenceManager.getDefaultSharedPreferences(this)
@@ -173,7 +173,7 @@ class MyApplication : Application() {
             }
         )
         
-        val lifecycleHandler = ClassNameDebugLifecycleHandler(settings)
+        val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings)
         registerActivityLifecycleCallbacks(lifecycleHandler)
     }
 }
@@ -184,7 +184,7 @@ class MyApplication : Application() {
 ### UI Customization
 
 ```kotlin
-val config = ClassNameDebugViewerConfig(
+val config = ScreenNameOverlayConfig(
     textSize = 12f,                              // Text size
     textColor = Color.WHITE,                     // Text color
     backgroundColor = Color.argb(128, 0, 0, 0),  // Background color
@@ -194,14 +194,14 @@ val config = ClassNameDebugViewerConfig(
     fragmentGravity = Gravity.TOP or Gravity.END     // Fragment display position
 )
 
-val lifecycleHandler = ClassNameDebugLifecycleHandler(settings, config)
+val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings, config)
 ```
 You can customize the style of the overlay that will be displayed on screen.
 
 ### Activation Condition Injection
 
 ```kotlin
-val settings = ClassNameViewerSettings(
+val settings = ScreenNameViewerSetting(
     debugModeCondition = { BuildConfig.DEBUG },
     enabledCondition = { 
         PreferenceManager.getDefaultSharedPreferences(this)

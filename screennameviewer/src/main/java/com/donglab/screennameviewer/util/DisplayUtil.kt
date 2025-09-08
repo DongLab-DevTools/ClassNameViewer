@@ -1,4 +1,4 @@
-package com.donglab.classnameviewer.util
+package com.donglab.screennameviewer.util
 
 import android.content.res.Resources
 

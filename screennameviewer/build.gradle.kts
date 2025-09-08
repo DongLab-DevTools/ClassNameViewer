@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.donglab.classnameviewer"
+    namespace = "com.donglab.screennameviewer"
     compileSdk = 36
 
     defaultConfig {

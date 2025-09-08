@@ -1,4 +1,4 @@
-package com.donglab.classnameviewer
+package com.donglab.screennameviewer
 
 import org.junit.Test
 

@@ -1,13 +1,13 @@
-package com.donglab.classnameviewer.viewer
+package com.donglab.screennameviewer.viewer
 
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.donglab.classnameviewer.config.ScreenNameOverlayConfig
-import com.donglab.classnameviewer.config.ScreenNameViewerSetting
-import com.donglab.classnameviewer.overlay.ScreenNameOverlayRenderer
+import com.donglab.screennameviewer.config.ScreenNameOverlayConfig
+import com.donglab.screennameviewer.config.ScreenNameViewerSetting
+import com.donglab.screennameviewer.overlay.ScreenNameOverlayRenderer
 
 internal class ScreenNameViewerImpl(
     private val activity: ComponentActivity,
@@ -18,7 +18,7 @@ internal class ScreenNameViewerImpl(
 
     init {
         require(settings.isDebugMode) {
-            "ClassNameDebugViewer should only be used in debug builds"
+            "ScreenNameViewer should only be used in debug builds"
         }
     }
 

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ClassNameViewer"
+rootProject.name = "ScreenNameViewer"
 include(":app")
-include(":classnameviewer")
+include(":screennameviewer")
