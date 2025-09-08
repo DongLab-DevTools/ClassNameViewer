@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 
-internal class OverlayLayoutContainer(
+internal class OverlayLayoutBuilder(
     private val decorView: ViewGroup?,
     private val context: Context?
 ) {

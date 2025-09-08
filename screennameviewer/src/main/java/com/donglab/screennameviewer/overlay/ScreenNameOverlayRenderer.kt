@@ -36,8 +36,8 @@ internal class ScreenNameOverlayRenderer(
         activity?.getStatusBarHeight() ?: 0
     }
 
-    private val layoutContainer by lazy {
-        OverlayLayoutContainer(decorView, activity)
+    private val layoutBuilder by lazy {
+        OverlayLayoutBuilder(decorView, activity)
     }
 
     private val textViewBuilder by lazy {
@@ -56,7 +56,7 @@ internal class ScreenNameOverlayRenderer(
     private fun getOrCreateLayout(type: OverlayType): LinearLayout? {
         val topMargin = statusBarHeight + config.topMargin.dp
         val gravityByType = type.getGravity(config)
-        val createContainerLayout = { layoutContainer.createContainer(gravityByType, topMargin) }
+        val createContainerLayout = { layoutBuilder.createContainer(gravityByType, topMargin) }
 
         return when (type) {
             OverlayType.FRAGMENT -> {
@@ -78,11 +78,11 @@ internal class ScreenNameOverlayRenderer(
     private fun addTextViewToLayout(context: Context, name: String, type: OverlayType) {
         val layout = getOrCreateLayout(type) ?: return
         val textView = textViewBuilder.build(context, name)
-        layoutContainer.addTextView(layout, textView)
+        layoutBuilder.addTextView(layout, textView)
     }
 
     fun removeFragmentName(name: String) {
-        layoutContainer.removeTextView(fragmentTextViewLayout, name)
+        layoutBuilder.removeTextView(fragmentTextViewLayout, name)
     }
 
     fun addActivityName(name: String) {
@@ -131,6 +131,6 @@ internal class ScreenNameOverlayRenderer(
     }
 
     fun removeCustomLabel(label: String) {
-        layoutContainer.removeTextView(customLabelLayout, label)
+        layoutBuilder.removeTextView(customLabelLayout, label)
     }
 }
