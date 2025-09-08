@@ -4,12 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -17,6 +14,7 @@ import android.widget.Toast
 import androidx.core.view.setPadding
 import com.donglab.screennameviewer.config.ScreenNameOverlayConfig
 import com.donglab.screennameviewer.util.dp
+import com.donglab.screennameviewer.util.getStatusBarHeight
 import java.lang.ref.WeakReference
 
 internal class ScreenNameOverlayRenderer(
@@ -31,7 +29,7 @@ internal class ScreenNameOverlayRenderer(
     }
 
     private val statusBarHeight: Int by lazy {
-        activity?.windowManager?.let { getStatusBarHeight(it) } ?: 0
+        activity?.getStatusBarHeight() ?: 0
     }
 
     private val params
@@ -135,22 +133,6 @@ internal class ScreenNameOverlayRenderer(
                 parent?.requestDisallowInterceptTouchEvent(false)
                 false
             }
-        }
-    }
-
-    @SuppressLint("InternalInsetResource")
-    private fun getStatusBarHeight(windowManager: WindowManager?): Int {
-        if (windowManager == null) return 0
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val windowMetrics = windowManager.currentWindowMetrics
-            val insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.statusBars())
-            insets.top
-        } else {
-            this.activity?.resources?.let { resources ->
-                val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-                if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
-            } ?: 0
         }
     }
 
