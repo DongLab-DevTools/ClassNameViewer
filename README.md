@@ -36,6 +36,9 @@ dependencies {
 }
 ```
 
+### 요구사항
+- Android API 21 (Android 5.0) 이상
+
 ## 사용법
 
 ### Application 클래스에서 초기화
@@ -73,7 +76,8 @@ val config = ScreenNameOverlayConfig(
     padding = 16,                                // 패딩
     topMargin = 64,                              // 상단 여백
     activityGravity = Gravity.TOP or Gravity.START,  // Activity 표시 위치
-    fragmentGravity = Gravity.TOP or Gravity.END     // Fragment 표시 위치
+    fragmentGravity = Gravity.TOP or Gravity.END,    // Fragment 표시 위치
+    customLabelGravity = Gravity.TOP or Gravity.END  // 커스텀 라벨 표시 위치
 )
 
 val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings, config)
@@ -83,7 +87,7 @@ val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings, config)
 ### 활성화 조건 주입
 
 ```kotlin
-val settings = ScreenNameViewerConfig(
+val settings = ScreenNameViewerSetting(
     debugModeCondition = { BuildConfig.DEBUG },
     enabledCondition = { 
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -91,8 +95,8 @@ val settings = ScreenNameViewerConfig(
     }
 )
 ```
-- `debudModeCondition`: 디버그 모드 조건을 주입합니다.
-- `enabledCondition`: 오버레이 기능 활성화 조건을 주입합니다. 
+- `debugModeCondition`: 디버그 모드 조건을 주입합니다.
+- `enabledCondition`: 오버레이 기능 활성화 조건을 주입합니다.
 
 ## 라이선스
 
@@ -154,6 +158,9 @@ dependencies {
 }
 ```
 
+### Requirements
+- Android API 21 (Android 5.0) or higher
+
 ## Usage
 
 ### Initialize in Application class (Recommended)
@@ -191,7 +198,8 @@ val config = ScreenNameOverlayConfig(
     padding = 16,                                // Padding
     topMargin = 64,                              // Top margin
     activityGravity = Gravity.TOP or Gravity.START,  // Activity display position
-    fragmentGravity = Gravity.TOP or Gravity.END     // Fragment display position
+    fragmentGravity = Gravity.TOP or Gravity.END,    // Fragment display position
+    customLabelGravity = Gravity.TOP or Gravity.END  // Custom label display position
 )
 
 val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings, config)
