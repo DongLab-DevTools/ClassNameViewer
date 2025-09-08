@@ -44,6 +44,7 @@ internal class ClassNameDebugOverlayManager(
 
     private var activityNameTextView: TextView? = null
     private var fragmentTextViewLayout: LinearLayout? = null
+    private var customLabelLayout: LinearLayout? = null
     private lateinit var config: ClassNameDebugViewerConfig
 
     fun initialize(config: ClassNameDebugViewerConfig) {
@@ -94,9 +95,11 @@ internal class ClassNameDebugOverlayManager(
         decorView?.let { decor ->
             activityNameTextView?.let { decor.removeView(it) }
             fragmentTextViewLayout?.let { decor.removeView(it) }
+            customLabelLayout?.let { decor.removeView(it) }
         }
         activityNameTextView = null
         fragmentTextViewLayout = null
+        customLabelLayout = null
     }
 
     private fun setFragmentNameLayout() {
@@ -148,6 +151,53 @@ internal class ClassNameDebugOverlayManager(
                 val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
                 if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
             } ?: 0
+        }
+    }
+
+    /**
+     * Custom Label 관련 메서드들
+     */
+    fun addCustomLabel(label: String) {
+        val context: Context = activity ?: return
+        val customLayout = getOrCreateCustomLabelLayout()
+        val isExist = customLayout?.findViewWithTag<TextView>(label) != null
+
+        if (!isExist) {
+            createClassNameTextView(context, label).let { textView ->
+                customLayout?.addView(textView)
+            }
+        }
+    }
+
+    fun removeCustomLabel(label: String) {
+        customLabelLayout?.findViewWithTag<View>(label)?.let {
+            customLabelLayout?.removeView(it)
+        }
+    }
+
+    private fun getOrCreateCustomLabelLayout(): LinearLayout? {
+        if (customLabelLayout == null) {
+            setCustomLabelLayout()
+        }
+        return customLabelLayout
+    }
+
+    private fun setCustomLabelLayout() {
+        if (customLabelLayout != null || activity == null) return
+
+        val customParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            topMargin = statusBarHeight + config.topMargin.dp
+            gravity = config.customLabelGravity
+        }
+
+        customLabelLayout = LinearLayout(activity).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(Color.TRANSPARENT)
+        }.also {
+            decorView?.addView(it, customParams)
         }
     }
 }

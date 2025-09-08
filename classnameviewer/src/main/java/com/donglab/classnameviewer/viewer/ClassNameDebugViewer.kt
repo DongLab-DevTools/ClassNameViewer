@@ -2,8 +2,12 @@ package com.donglab.classnameviewer.viewer
 
 import androidx.fragment.app.Fragment
 
-internal interface ClassNameDebugViewer {
+interface ClassNameDebugViewer {
     fun initialize()
     fun registerFragment(fragment: Fragment)
     fun clear()
+    
+    // Custom Label
+    fun addCustomLabel(label: String)
+    fun removeCustomLabel(label: String)
 }

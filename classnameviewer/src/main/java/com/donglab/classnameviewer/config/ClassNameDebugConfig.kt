@@ -13,7 +13,8 @@ data class ClassNameDebugViewerConfig(
     val padding: Int,
     val topMargin: Int,
     val activityGravity: Int,
-    val fragmentGravity: Int
+    val fragmentGravity: Int,
+    val customLabelGravity: Int
 ) {
     companion object {
         /**
@@ -27,7 +28,8 @@ data class ClassNameDebugViewerConfig(
             padding = 16,
             topMargin = 52,
             activityGravity = Gravity.TOP or Gravity.START,
-            fragmentGravity = Gravity.TOP or Gravity.END
+            fragmentGravity = Gravity.TOP or Gravity.END,
+            customLabelGravity = Gravity.TOP or Gravity.END
         )
     }
 }

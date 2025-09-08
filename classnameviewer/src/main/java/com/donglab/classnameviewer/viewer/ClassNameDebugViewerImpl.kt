@@ -39,6 +39,16 @@ internal class ClassNameDebugViewerImpl(
         overlayManager.clearOverlay()
     }
 
+    override fun addCustomLabel(label: String) {
+        if (!settings.isEnabled) return
+        overlayManager.addCustomLabel(label)
+    }
+
+    override fun removeCustomLabel(label: String) {
+        if (!settings.isEnabled) return
+        overlayManager.removeCustomLabel(label)
+    }
+
     private inner class ActivityLifecycleObserver : DefaultLifecycleObserver {
         override fun onCreate(owner: LifecycleOwner) {
             overlayManager.addActivityName(activity.javaClass.simpleName)
