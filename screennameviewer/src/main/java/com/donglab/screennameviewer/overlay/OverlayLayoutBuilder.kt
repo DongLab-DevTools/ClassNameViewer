@@ -13,7 +13,7 @@ internal class OverlayLayoutBuilder(
     private val context: Context?
 ) {
 
-    fun createContainer(gravity: Int, topMargin: Int): LinearLayout? {
+    fun createContainer(gravity: Int, topMargin: Int, insertAfter: View? = null): LinearLayout? {
         return context?.let {
             LinearLayout(it).apply {
                 orientation = LinearLayout.VERTICAL
@@ -26,7 +26,15 @@ internal class OverlayLayoutBuilder(
                     this.topMargin = topMargin
                     this.gravity = gravity
                 }
-                decorView?.addView(layout, params)
+                
+                val insertIndex = if (insertAfter != null) {
+                    val afterIndex = decorView?.indexOfChild(insertAfter) ?: -1
+                    if (afterIndex >= 0) afterIndex + 1 else decorView?.childCount ?: 0
+                } else {
+                    decorView?.childCount ?: 0
+                }
+                
+                decorView?.addView(layout, insertIndex, params)
             }
         }
     }

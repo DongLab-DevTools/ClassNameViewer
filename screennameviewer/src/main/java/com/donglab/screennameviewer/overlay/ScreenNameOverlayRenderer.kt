@@ -56,18 +56,22 @@ internal class ScreenNameOverlayRenderer(
     private fun getOrCreateLayout(type: OverlayType): LinearLayout? {
         val topMargin = statusBarHeight + config.topMargin.dp
         val gravityByType = type.getGravity(config)
-        val createContainerLayout = { layoutBuilder.createContainer(gravityByType, topMargin) }
 
         return when (type) {
             OverlayType.FRAGMENT -> {
                 if (fragmentTextViewLayout == null) {
-                    fragmentTextViewLayout = createContainerLayout.invoke()
+                    fragmentTextViewLayout = layoutBuilder.createContainer(gravityByType, topMargin)
                 }
                 fragmentTextViewLayout
             }
             OverlayType.CUSTOM_LABEL -> {
                 if (customLabelLayout == null) {
-                    customLabelLayout = createContainerLayout.invoke()
+                    // CustomLabel은 Fragment 다음에 배치
+                    customLabelLayout = layoutBuilder.createContainer(
+                        gravity = gravityByType,
+                        topMargin = topMargin,
+                        insertAfter = fragmentTextViewLayout
+                    )
                 }
                 customLabelLayout
             }
