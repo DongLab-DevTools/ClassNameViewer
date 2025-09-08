@@ -15,6 +15,16 @@ internal class ScreenNameOverlayRenderer(
     private val activityRef: WeakReference<Activity>,
 ) {
 
+    private enum class OverlayType {
+        ACTIVITY, FRAGMENT, CUSTOM_LABEL;
+
+        fun getGravity(config: ScreenNameOverlayConfig): Int = when (this) {
+            ACTIVITY -> config.activityGravity
+            FRAGMENT -> config.fragmentGravity
+            CUSTOM_LABEL -> config.customLabelGravity
+        }
+    }
+
     private val activity: Activity?
         get() = activityRef.get()
 
@@ -33,21 +43,11 @@ internal class ScreenNameOverlayRenderer(
     private val textViewBuilder by lazy {
         StyledTextViewBuilder(config)
     }
-    
+
     private var activityNameTextView: TextView? = null
     private var fragmentTextViewLayout: LinearLayout? = null
     private var customLabelLayout: LinearLayout? = null
     private lateinit var config: ScreenNameOverlayConfig
-
-    private enum class OverlayType {
-        ACTIVITY, FRAGMENT, CUSTOM_LABEL;
-        
-        fun getGravity(config: ScreenNameOverlayConfig): Int = when (this) {
-            ACTIVITY -> config.activityGravity
-            FRAGMENT -> config.fragmentGravity
-            CUSTOM_LABEL -> config.customLabelGravity
-        }
-    }
 
     fun initialize(config: ScreenNameOverlayConfig) {
         this.config = config
