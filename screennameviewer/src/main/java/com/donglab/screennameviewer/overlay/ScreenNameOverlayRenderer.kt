@@ -26,18 +26,18 @@ internal class ScreenNameOverlayRenderer(
         activity?.getStatusBarHeight() ?: 0
     }
 
+    private val layoutContainer by lazy {
+        OverlayLayoutContainer(decorView, activity)
+    }
+
+    private val textViewBuilder by lazy {
+        StyledTextViewBuilder(config)
+    }
+    
     private var activityNameTextView: TextView? = null
     private var fragmentTextViewLayout: LinearLayout? = null
     private var customLabelLayout: LinearLayout? = null
     private lateinit var config: ScreenNameOverlayConfig
-    
-    private val layoutContainer by lazy {
-        OverlayLayoutContainer(decorView, activity)
-    }
-    
-    private val textViewBuilder by lazy {
-        StyledTextViewBuilder(config)
-    }
 
     private enum class OverlayType {
         ACTIVITY, FRAGMENT, CUSTOM_LABEL;
@@ -54,24 +54,20 @@ internal class ScreenNameOverlayRenderer(
     }
 
     private fun getOrCreateLayout(type: OverlayType): LinearLayout? {
+        val topMargin = statusBarHeight + config.topMargin.dp
+        val gravityByType = type.getGravity(config)
+        val createContainerLayout = { layoutContainer.createContainer(gravityByType, topMargin) }
+
         return when (type) {
             OverlayType.FRAGMENT -> {
                 if (fragmentTextViewLayout == null) {
-                    val topMargin = statusBarHeight + config.topMargin.dp
-                    fragmentTextViewLayout = layoutContainer.createContainer(
-                        gravity = type.getGravity(config),
-                        topMargin = topMargin
-                    )
+                    fragmentTextViewLayout = createContainerLayout.invoke()
                 }
                 fragmentTextViewLayout
             }
             OverlayType.CUSTOM_LABEL -> {
                 if (customLabelLayout == null) {
-                    val topMargin = statusBarHeight + config.topMargin.dp
-                    customLabelLayout = layoutContainer.createContainer(
-                        gravity = type.getGravity(config),
-                        topMargin = topMargin
-                    )
+                    customLabelLayout = createContainerLayout.invoke()
                 }
                 customLabelLayout
             }
@@ -85,18 +81,8 @@ internal class ScreenNameOverlayRenderer(
         layoutContainer.addTextView(layout, textView)
     }
 
-    private fun removeTextViewFromLayout(name: String, type: OverlayType) {
-        val layout = when (type) {
-            OverlayType.FRAGMENT -> fragmentTextViewLayout
-            OverlayType.CUSTOM_LABEL -> customLabelLayout
-            OverlayType.ACTIVITY -> return // Activity doesn't use this pattern
-        }
-        
-        layoutContainer.removeTextView(layout, name)
-    }
-
     fun removeFragmentName(name: String) {
-        removeTextViewFromLayout(name, OverlayType.FRAGMENT)
+        layoutContainer.removeTextView(fragmentTextViewLayout, name)
     }
 
     fun addActivityName(name: String) {
@@ -145,6 +131,6 @@ internal class ScreenNameOverlayRenderer(
     }
 
     fun removeCustomLabel(label: String) {
-        removeTextViewFromLayout(label, OverlayType.CUSTOM_LABEL)
+        layoutContainer.removeTextView(customLabelLayout, label)
     }
 }
