@@ -58,7 +58,8 @@ gpr.user=YOUR_GITHUB_USERNAME
 gpr.key=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 ```
 
-> **참고**: GitHub Packages에서 다운로드하려면 `read:packages` 권한이 있는 GitHub Personal Access Token이 필요합니다.
+> [!NOTE]
+> GitHub Packages에서 다운로드하려면 `read:packages` 권한이 있는 GitHub Personal Access Token이 필요합니다.
 
 ### 요구사항
 - Android API 21 (Android 5.0) 이상
