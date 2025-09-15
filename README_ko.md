@@ -28,11 +28,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
+		maven {
             url = uri("https://maven.pkg.github.com/DongLab-DevTools/ScreenNameViewer")
+
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                username = props.getProperty("github_username")
+                password = props.getProperty("github_token")
             }
         }
     }
@@ -54,8 +55,8 @@ dependencies {
 프로젝트 루트에 `gradle.properties` 파일을 생성하고 GitHub 인증 정보를 추가하세요:
 
 ```properties
-gpr.user=YOUR_GITHUB_USERNAME
-gpr.key=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+github_username=YOUR_GITHUB_USERNAME
+github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 ```
 
 > [!NOTE]
@@ -76,54 +77,77 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        ScreenNameViewer.getInstance().initialize(
-            application = this,
-            settings = ScreenNameViewerSetting(
-                debugModeCondition = { BuildConfig.DEBUG },
-                enabledCondition = {
-                    PreferenceManager.getDefaultSharedPreferences(this)
+        initScreenNameViewer(this) {
+            settings {
+                debugMode { BuildConfig.DEBUG }
+                enabled {
+                    PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
                         .getBoolean("debug_overlay_enabled", true)
-                },
-            ),
-            config = ScreenNameOverlayConfig.default()
-        )
+                }
+            }
+            config {
+                textStyle {
+                    size = 12f
+                    color = Color.WHITE
+                }
+                background {
+                    color = Color.argb(128, 0, 0, 0)
+                    padding = 16
+                }
+                position {
+                    topMargin = 64
+                    activity = Gravity.TOP or Gravity.START
+                    fragment = Gravity.TOP or Gravity.END
+                }
+            }
+        }
     }
 }
 ```
 
 ## 설정
 
-### UI 커스터마이징
+### DSL 설정
+
+간단한 DSL(Domain Specific Language)을 사용하여 라이브러리를 설정할 수 있습니다:
 
 ```kotlin
-val config = ScreenNameOverlayConfig(
-    textSize = 12f,                              // 텍스트 크기
-    textColor = Color.WHITE,                     // 텍스트 색상
-    backgroundColor = Color.argb(128, 0, 0, 0),  // 배경색
-    padding = 16,                                // 패딩
-    topMargin = 64,                              // 상단 여백
-    activityGravity = Gravity.TOP or Gravity.START,  // Activity 표시 위치
-    fragmentGravity = Gravity.TOP or Gravity.END,    // Fragment 표시 위치
-    customLabelGravity = Gravity.TOP or Gravity.END  // 커스텀 라벨 표시 위치
-)
-
-val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings, config)
-```
-화면에 표시될 오버레이의 스타일을 커스텀할 수 있습니다.
-
-### 활성화 조건 주입
-
-```kotlin
-val settings = ScreenNameViewerSetting(
-    debugModeCondition = { BuildConfig.DEBUG },
-    enabledCondition = { 
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .getBoolean("debug_overlay_enabled", true)
+initScreenNameViewer(this) {
+    settings {
+        debugMode { BuildConfig.DEBUG }
+        enabled {
+            PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
+                .getBoolean("debug_overlay_enabled", true)
+        }
     }
-)
+    config {
+        textStyle {
+            size = 12f                    // 텍스트 크기
+            color = Color.WHITE           // 텍스트 색상
+        }
+        background {
+            color = Color.argb(128, 0, 0, 0)  // 배경색
+            padding = 16                      // 패딩
+        }
+        position {
+            topMargin = 64                                    // 상단 여백
+            activity = Gravity.TOP or Gravity.START          // Activity 표시 위치
+            fragment = Gravity.TOP or Gravity.END            // Fragment 표시 위치
+        }
+    }
+}
 ```
-- `debugModeCondition`: 디버그 모드 조건을 주입합니다.
-- `enabledCondition`: 오버레이 기능 활성화 조건을 주입합니다.
+
+### 설정 옵션
+
+- **settings**: 활성화 조건 설정
+  - `debugMode`: 디버그 모드 조건
+  - `enabled`: 오버레이 기능 활성화 조건
+
+- **config**: 오버레이 모양 커스터마이징
+  - `textStyle`: 텍스트 크기와 색상
+  - `background`: 배경색과 패딩
+  - `position`: 여백과 각 컴포넌트의 표시 위치
 
 ## 라이선스
 

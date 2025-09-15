@@ -30,11 +30,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
+		maven {
             url = uri("https://maven.pkg.github.com/DongLab-DevTools/ScreenNameViewer")
+
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                username = props.getProperty("github_username")
+                password = props.getProperty("github_token")
             }
         }
     }
@@ -56,8 +57,8 @@ dependencies {
 Create a `gradle.properties` file in your project root with your GitHub credentials:
 
 ```properties
-gpr.user=YOUR_GITHUB_USERNAME
-gpr.key=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+github_username=YOUR_GITHUB_USERNAME
+github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 ```
 
 > [!NOTE]
@@ -79,54 +80,77 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        ScreenNameViewer.getInstance().initialize(
-            application = this,
-            settings = ScreenNameViewerSetting(
-                debugModeCondition = { BuildConfig.DEBUG },
-                enabledCondition = {
-                    PreferenceManager.getDefaultSharedPreferences(this)
+        initScreenNameViewer(this) {
+            settings {
+                debugMode { BuildConfig.DEBUG }
+                enabled {
+                    PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
                         .getBoolean("debug_overlay_enabled", true)
-                },
-            ),
-            config = ScreenNameOverlayConfig.default()
-        )
+                }
+            }
+            config {
+                textStyle {
+                    size = 12f
+                    color = Color.WHITE
+                }
+                background {
+                    color = Color.argb(128, 0, 0, 0)
+                    padding = 16
+                }
+                position {
+                    topMargin = 64
+                    activity = Gravity.TOP or Gravity.START
+                    fragment = Gravity.TOP or Gravity.END
+                }
+            }
+        }
     }
 }
 ```
 
 ## Configuration
 
-### UI Customization
+### DSL Configuration
+
+You can configure the library using a simple DSL (Domain Specific Language):
 
 ```kotlin
-val config = ScreenNameOverlayConfig(
-    textSize = 12f,                              // Text size
-    textColor = Color.WHITE,                     // Text color
-    backgroundColor = Color.argb(128, 0, 0, 0),  // Background color
-    padding = 16,                                // Padding
-    topMargin = 64,                              // Top margin
-    activityGravity = Gravity.TOP or Gravity.START,  // Activity display position
-    fragmentGravity = Gravity.TOP or Gravity.END,    // Fragment display position
-    customLabelGravity = Gravity.TOP or Gravity.END  // Custom label display position
-)
-
-val lifecycleHandler = ScreenNameViewerLifecycleHandler(settings, config)
-```
-You can customize the style of the overlay that will be displayed on screen.
-
-### Activation Condition Injection
-
-```kotlin
-val settings = ScreenNameViewerSetting(
-    debugModeCondition = { BuildConfig.DEBUG },
-    enabledCondition = {
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .getBoolean("debug_overlay_enabled", true)
+initScreenNameViewer(this) {
+    settings {
+        debugMode { BuildConfig.DEBUG }
+        enabled {
+            PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
+                .getBoolean("debug_overlay_enabled", true)
+        }
     }
-)
+    config {
+        textStyle {
+            size = 12f                    // Text size
+            color = Color.WHITE           // Text color
+        }
+        background {
+            color = Color.argb(128, 0, 0, 0)  // Background color
+            padding = 16                      // Padding
+        }
+        position {
+            topMargin = 64                                    // Top margin
+            activity = Gravity.TOP or Gravity.START          // Activity display position
+            fragment = Gravity.TOP or Gravity.END            // Fragment display position
+        }
+    }
+}
 ```
-- `debugModeCondition`: Injects debug mode condition.
-- `enabledCondition`: Injects overlay feature activation condition.
+
+### Configuration Options
+
+- **settings**: Configure activation conditions
+  - `debugMode`: Debug mode condition
+  - `enabled`: Overlay feature activation condition
+
+- **config**: Customize overlay appearance
+  - `textStyle`: Text size and color
+  - `background`: Background color and padding
+  - `position`: Margin and display positions for different components
 
 ## Contributors
 
