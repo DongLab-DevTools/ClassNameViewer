@@ -3,6 +3,7 @@
 개발 중인 안드로이드 앱에서 현재 Activity와 Fragment의 클래스명을 화면에 오버레이로 표시해주는 디버그 라이브러리입니다.
 
 ## 개요
+![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
 
 ScreenNameViewer 현재 화면에 보이는 Activity와 Fragment의 클래스명을 실시간으로 화면에 표시하는 도구입니다.
 
