@@ -5,7 +5,7 @@
 ## 개요
 ![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
 
-ScreenNameViewer는 화면 위에 클래스명을 오버레이로 표시하여, 현재 표시 중인 화면을 즉시 확인할 수 있도록 도와줍니다.
+ScreenNameViewer는 화면 위에 클래스명을 오버레이로 표시하여, 현재 표시 중인 화면을 즉시 확인할 수 있도록 도와줍니다.  
 이를 통해 원하는 화면의 코드를 빠르게 찾아 디버깅 및 개발 효율을 높일 수 있습니다.
 
 ## 특징
