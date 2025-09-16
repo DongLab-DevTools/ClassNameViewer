@@ -97,12 +97,10 @@ jobs:
 
       # 새 버전으로 GitHub Release 생성
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ needs.check-version-change.outputs.new-version }}
-          release_name: Release v${{ needs.check-version-change.outputs.new-version }}
+          name: Release v${{ needs.check-version-change.outputs.new-version }}
           body: |
             ## Changes in v${{ needs.check-version-change.outputs.new-version }}
 
@@ -111,3 +109,5 @@ jobs:
             Published to GitHub Packages automatically.
           draft: false     # 즉시 공개
           prerelease: false # 정식 릴리즈로 설정
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
