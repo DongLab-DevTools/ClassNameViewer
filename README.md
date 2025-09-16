@@ -6,6 +6,8 @@ A debug library that overlays the class names of the current Activity and Fragme
 
 ## Overview
 
+![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
+
 ScreenNameViewer overlays class names directly on the screen, allowing you to instantly identify the currently visible Activity or Fragment.
 
 This makes it easier to locate the corresponding code, speeding up debugging and improving development efficiency.
