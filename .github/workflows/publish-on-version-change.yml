@@ -10,6 +10,11 @@ on:
     paths:
       - 'gradle/libs.versions.toml'  # 이 파일이 변경된 경우에만 실행
 
+# GitHub Actions에서 필요한 권한 설정
+permissions:
+  contents: write    # 릴리즈 생성을 위해 필요
+  packages: write    # GitHub Packages 배포를 위해 필요
+
 jobs:
   # 첫 번째 작업: sdk_version이 실제로 변경되었는지 확인
   check-version-change:
