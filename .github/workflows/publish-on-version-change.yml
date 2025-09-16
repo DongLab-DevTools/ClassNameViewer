@@ -107,11 +107,35 @@ jobs:
           tag_name: v${{ needs.check-version-change.outputs.new-version }}
           name: Release v${{ needs.check-version-change.outputs.new-version }}
           body: |
-            ## Changes in v${{ needs.check-version-change.outputs.new-version }}
-
             SDK version updated to ${{ needs.check-version-change.outputs.new-version }}
 
             Published to GitHub Packages automatically.
+
+            ### 📦 라이브러리 적용 방법
+
+            **1. GitHub Token 설정**
+            - GitHub Packages를 사용하기 위해 Personal Access Token이 필요합니다.
+
+            **2. Gradle 설정 (build.gradle.kts)**
+            ```kotlin
+            repositories {
+                maven {
+                    url = uri("https://maven.pkg.github.com/DongLab-DevTools/ScreenNameViewer")
+                    credentials {
+                        username = "YOUR_GITHUB_USERNAME"
+                        password = "YOUR_GITHUB_TOKEN"
+                    }
+                }
+            }
+
+            dependencies {
+                implementation("com.donglab.devtools:screennameviewer:${{ needs.check-version-change.outputs.new-version }}")
+            }
+            ```
+
+            **3. 사용 방법**
+            - 자세한 사용법은 [README](https://github.com/DongLab-DevTools/ScreenNameViewer/blob/main/README.md)를 참고하세요.
+
           draft: false     # 즉시 공개
           prerelease: false # 정식 릴리즈로 설정
         env:
