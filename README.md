@@ -8,7 +8,7 @@ A debug library that overlays the class names of the current Activity and Fragme
 
 ![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
 
-<a href="https://github.com/DongLab-DevTools/ScreenNameViewer">
+<a href="https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose">
 	<img src="https://github.com/DongLab-DevTools/ScreenNameViewer/blob/326eb76dc23e4f806c200e67598311ab7271ab59/.github/images/screen_name_viewer_link_thumb_compose_en.png"/>
 </a>
 
