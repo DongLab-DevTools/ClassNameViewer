@@ -5,7 +5,7 @@
 ## 개요
 ![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
 
-<a href="https://github.com/DongLab-DevTools/ScreenNameViewer">
+<a href="https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose">
 	<img src="https://github.com/DongLab-DevTools/ScreenNameViewer/blob/6f05df5ca7b6f5893f05a2a53fb8e0548301b605/.github/images/screen_name_viewer_link_thumb_compose_kr.png"/>
 </a>
 
