@@ -19,6 +19,8 @@ ScreenNameViewer overlays class names directly on the screen, allowing you to in
 
 This makes it easier to locate the corresponding code, speeding up debugging and improving development efficiency.
 
+<br>
+
 ## Features
 
 - **Real-time class name display**: Shows Activity and Fragment class names on screen in real-time
@@ -27,6 +29,8 @@ This makes it easier to locate the corresponding code, speeding up debugging and
 - **UI customization**: Freely configure text size, color, position, etc.
 - **Memory safe**: Prevents memory leaks using WeakReference
 - **Touch interaction**: Touch overlay to show full class name in toast
+
+<br>
 
 ## Installation
 
@@ -74,8 +78,12 @@ github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 > 
 > You need a GitHub Personal Access Token with `read:packages` permission to download from GitHub Packages.
 
+<br>
+
 ### Requirements
 - Android API 21 (Android 5.0) or higher
+
+<br>
 
 ## Usage
 
@@ -117,6 +125,9 @@ class MyApplication : Application() {
 }
 ```
 
+<br>
+
+
 ## Configuration
 
 ### DSL Configuration
@@ -150,6 +161,8 @@ initScreenNameViewer(this) {
 }
 ```
 
+<br>
+
 ### Configuration Options
 
 - **settings**: Configure activation conditions
@@ -160,6 +173,8 @@ initScreenNameViewer(this) {
   - `textStyle`: Text size and color
   - `background`: Background color and padding
   - `position`: Margin and display positions for different components
+
+<br>
 
 ## Contributors
 
