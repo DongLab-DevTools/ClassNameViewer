@@ -16,6 +16,8 @@ object ScreenNameViewer {
         settings: ScreenNameViewerSetting,
         config: ScreenNameOverlayConfig
     ) {
+        if (settings.isEnabled.not()) return
+
         ScreenNameViewer.settings = settings
         ScreenNameViewer.config = config
 
