@@ -1,4 +1,7 @@
 # ScreenNameViewer
+[![Hits](https://myhits.vercel.app/api/hit/https%3A%2F%2Fgithub.com%2FDongLab-DevTools%2FScreenNameViewer%3Ftab%3Dreadme-ov-file?color=blue&label=hits&size=small)](https://myhits.vercel.app)
+[![Platform](https://img.shields.io/badge/platform-Android-3DDC84?style=flat-square&logo=android)](https://developer.android.com)
+[![Min SDK](https://img.shields.io/badge/min%20sdk-21-green?style=flat-square)](https://developer.android.com)
 
 **[한국어 README](./README_ko.md)**
 
@@ -8,9 +11,18 @@ A debug library that overlays the class names of the current Activity and Fragme
 
 ![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
 
+<a href="https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose">
+	<img src="https://github.com/DongLab-DevTools/ScreenNameViewer/blob/326eb76dc23e4f806c200e67598311ab7271ab59/.github/images/screen_name_viewer_link_thumb_compose_en.png"/>
+</a>
+
+<br>
+<br>
+
 ScreenNameViewer overlays class names directly on the screen, allowing you to instantly identify the currently visible Activity or Fragment.
 
 This makes it easier to locate the corresponding code, speeding up debugging and improving development efficiency.
+
+<br>
 
 ## Features
 
@@ -20,6 +32,8 @@ This makes it easier to locate the corresponding code, speeding up debugging and
 - **UI customization**: Freely configure text size, color, position, etc.
 - **Memory safe**: Prevents memory leaks using WeakReference
 - **Touch interaction**: Touch overlay to show full class name in toast
+
+<br>
 
 ## Installation
 
@@ -67,8 +81,12 @@ github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 > 
 > You need a GitHub Personal Access Token with `read:packages` permission to download from GitHub Packages.
 
+<br>
+
 ### Requirements
 - Android API 21 (Android 5.0) or higher
+
+<br>
 
 ## Usage
 
@@ -110,6 +128,9 @@ class MyApplication : Application() {
 }
 ```
 
+<br>
+
+
 ## Configuration
 
 ### DSL Configuration
@@ -143,6 +164,8 @@ initScreenNameViewer(this) {
 }
 ```
 
+<br>
+
 ### Configuration Options
 
 - **settings**: Configure activation conditions
@@ -153,6 +176,8 @@ initScreenNameViewer(this) {
   - `textStyle`: Text size and color
   - `background`: Background color and padding
   - `position`: Margin and display positions for different components
+
+<br>
 
 ## Contributors
 
