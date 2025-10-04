@@ -94,12 +94,11 @@ class MyApplication : Application() {
 
         initScreenNameViewer(this) {
             settings {
-                debugMode { BuildConfig.DEBUG }
-                enabled {
-                    PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
+                debugModeCondition = BuildConfig.DEBUG
+                enableCondition = PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
                         .getBoolean("debug_overlay_enabled", true)
-                }
             }
+
             config {
                 textStyle {
                     size = 12f
@@ -113,6 +112,7 @@ class MyApplication : Application() {
                     topMargin = 64
                     activity = Gravity.TOP or Gravity.START
                     fragment = Gravity.TOP or Gravity.END
+                    composeRoute = Gravity.TOP or Gravity.END
                 }
             }
         }
