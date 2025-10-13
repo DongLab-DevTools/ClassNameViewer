@@ -46,14 +46,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-		maven {
-            url = uri("https://maven.pkg.github.com/DongLab-DevTools/ScreenNameViewer")
-
-            credentials {
-                username = props.getProperty("github_username")
-                password = props.getProperty("github_token")
-            }
-        }
+		maven { url = uri("https://jitpack.io") }
     }
 }
 ```
@@ -64,22 +57,9 @@ Add the library to your module's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation 'com.donglab.devtools:screennameviewer:latestVersion'
+    implementation 'com.github.DongLab-DevTools:ScreenNameViewer:latestVersion'
 }
 ```
-
-### Step 3: Authentication
-
-Create a `gradle.properties` file in your project root with your GitHub credentials:
-
-```properties
-github_username=YOUR_GITHUB_USERNAME
-github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
-```
-
-> [!NOTE]
-> 
-> You need a GitHub Personal Access Token with `read:packages` permission to download from GitHub Packages.
 
 <br>
 
@@ -140,12 +120,12 @@ You can configure the library using a simple DSL (Domain Specific Language):
 ```kotlin
 initScreenNameViewer(this) {
     settings {
-        debugMode { BuildConfig.DEBUG }
-        enabled {
-            PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
-                .getBoolean("debug_overlay_enabled", true)
-        }
+        debugModeCondition = BuildConfig.DEBUG
+        enableCondition = PreferenceManager
+            .getDefaultSharedPreferences(this@MyApplication)
+            .getBoolean("debug_overlay_enabled", true)
     }
+
     config {
         textStyle {
             size = 12f                    // Text size
@@ -159,6 +139,7 @@ initScreenNameViewer(this) {
             topMargin = 64                                    // Top margin
             activity = Gravity.TOP or Gravity.START          // Activity display position
             fragment = Gravity.TOP or Gravity.END            // Fragment display position
+            composeRoute = Gravity.TOP or Gravity.END        // Compose Route display position
         }
     }
 }
