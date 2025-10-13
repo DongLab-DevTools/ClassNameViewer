@@ -5,8 +5,17 @@
 ## 개요
 ![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
 
+<a href="https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose">
+	<img src="https://github.com/DongLab-DevTools/ScreenNameViewer/blob/6f05df5ca7b6f5893f05a2a53fb8e0548301b605/.github/images/screen_name_viewer_link_thumb_compose_kr.png"/>
+</a>
+
+<br>
+<br>
+
 ScreenNameViewer는 화면 위에 클래스명을 오버레이로 표시하여, 현재 표시 중인 화면을 즉시 확인할 수 있도록 도와줍니다.  
 이를 통해 원하는 화면의 코드를 빠르게 찾아 디버깅 및 개발 효율을 높일 수 있습니다.
+
+<br>
 
 ## 특징
 
@@ -16,6 +25,8 @@ ScreenNameViewer는 화면 위에 클래스명을 오버레이로 표시하여, 
 - **UI 커스터마이징**: 텍스트 크기, 색상, 위치 등 자유롭게 설정 가능
 - **메모리 안전**: WeakReference 사용으로 메모리 누수 방지
 - **터치 상호작용**: 오버레이 터치 시 Toast로 전체 클래스명 표시
+
+<br>
 
 ## 설치
 
@@ -62,8 +73,12 @@ github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 > [!NOTE]
 > GitHub Packages에서 다운로드하려면 `read:packages` 권한이 있는 GitHub Personal Access Token이 필요합니다.
 
+<br>
+
 ### 요구사항
 - Android API 21 (Android 5.0) 이상
+
+<br>
 
 ## 사용법
 
@@ -79,12 +94,11 @@ class MyApplication : Application() {
 
         initScreenNameViewer(this) {
             settings {
-                debugMode { BuildConfig.DEBUG }
-                enabled {
-                    PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
+                debugModeCondition = BuildConfig.DEBUG
+                enableCondition = PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
                         .getBoolean("debug_overlay_enabled", true)
-                }
             }
+
             config {
                 textStyle {
                     size = 12f
@@ -98,12 +112,15 @@ class MyApplication : Application() {
                     topMargin = 64
                     activity = Gravity.TOP or Gravity.START
                     fragment = Gravity.TOP or Gravity.END
+                    composeRoute = Gravity.TOP or Gravity.END
                 }
             }
         }
     }
 }
 ```
+
+<br>
 
 ## 설정
 
@@ -138,6 +155,8 @@ initScreenNameViewer(this) {
 }
 ```
 
+<br>
+
 ### 설정 옵션
 
 - **settings**: 활성화 조건 설정
@@ -149,31 +168,7 @@ initScreenNameViewer(this) {
   - `background`: 배경색과 패딩
   - `position`: 여백과 각 컴포넌트의 표시 위치
 
-## 라이선스
-
-```
-MIT License
-
-Copyright (c) 2025 DongLab-DevTools
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+<br>
 
 ## Contributors
 

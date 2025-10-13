@@ -7,9 +7,6 @@ plugins {
     id("maven-publish")
 }
 
-group = "com.donglab.devtools"
-version = libs.versions.sdk.version.get()
-
 android {
     namespace = "com.donglab.screennameviewer"
     compileSdk = 36
@@ -53,27 +50,12 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-publishing {
-    repositories {
-        maven {
-            val props = Properties().apply {
-                load(rootProject.file("github.properties").inputStream())
-            }
-            url = uri(props.getProperty("url"))
-
-            credentials {
-                username = props.getProperty("github_username")
-                password = props.getProperty("github_token")
-            }
-        }
-    }
-}
-
 afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
+                groupId = "com.donglab.devtools"
                 artifactId = "screennameviewer"
 
                 // POM Metadata (Optional)
