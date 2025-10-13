@@ -2,6 +2,7 @@
 [![Hits](https://myhits.vercel.app/api/hit/https%3A%2F%2Fgithub.com%2FDongLab-DevTools%2FScreenNameViewer%3Ftab%3Dreadme-ov-file?color=blue&label=hits&size=small)](https://myhits.vercel.app)
 [![Platform](https://img.shields.io/badge/platform-Android-3DDC84?style=flat-square&logo=android)](https://developer.android.com)
 [![Min SDK](https://img.shields.io/badge/min%20sdk-21-green?style=flat-square)](https://developer.android.com)
+[![Jitpack](https://jitpack.io/v/DongLab-DevTools/ScreenNameViewer.svg)](https://jitpack.io/#DongLab-DevTools/ScreenNameViewer)
 
 **[한국어 README](./README_ko.md)**
 
@@ -9,7 +10,7 @@ A debug library that overlays the class names of the current Activity and Fragme
 
 ## Overview
 
-![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
+![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/3de0c47959bfd8fe8bdb7d21a96d9f23b0137794/.github/docs/images/screennameviewer-exmaple.png)
 
 <a href="https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose">
 	<img src="https://github.com/DongLab-DevTools/ScreenNameViewer/blob/326eb76dc23e4f806c200e67598311ab7271ab59/.github/images/screen_name_viewer_link_thumb_compose_en.png"/>
@@ -46,14 +47,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-		maven {
-            url = uri("https://maven.pkg.github.com/DongLab-DevTools/ScreenNameViewer")
-
-            credentials {
-                username = props.getProperty("github_username")
-                password = props.getProperty("github_token")
-            }
-        }
+		maven { url = uri("https://jitpack.io") }
     }
 }
 ```
@@ -64,22 +58,9 @@ Add the library to your module's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation 'com.donglab.devtools:screennameviewer:latestVersion'
+    implementation 'com.github.DongLab-DevTools:ScreenNameViewer:latestVersion'
 }
 ```
-
-### Step 3: Authentication
-
-Create a `gradle.properties` file in your project root with your GitHub credentials:
-
-```properties
-github_username=YOUR_GITHUB_USERNAME
-github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
-```
-
-> [!NOTE]
-> 
-> You need a GitHub Personal Access Token with `read:packages` permission to download from GitHub Packages.
 
 <br>
 
@@ -140,12 +121,12 @@ You can configure the library using a simple DSL (Domain Specific Language):
 ```kotlin
 initScreenNameViewer(this) {
     settings {
-        debugMode { BuildConfig.DEBUG }
-        enabled {
-            PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
-                .getBoolean("debug_overlay_enabled", true)
-        }
+        debugModeCondition = BuildConfig.DEBUG
+        enableCondition = PreferenceManager
+            .getDefaultSharedPreferences(this@MyApplication)
+            .getBoolean("debug_overlay_enabled", true)
     }
+
     config {
         textStyle {
             size = 12f                    // Text size
@@ -159,6 +140,7 @@ initScreenNameViewer(this) {
             topMargin = 64                                    // Top margin
             activity = Gravity.TOP or Gravity.START          // Activity display position
             fragment = Gravity.TOP or Gravity.END            // Fragment display position
+            composeRoute = Gravity.TOP or Gravity.END        // Compose Route display position
         }
     }
 }

@@ -3,7 +3,7 @@
 현재 Activity와 Fragment의 클래스명을 화면에 오버레이로 표시해주는 디버그 라이브러리입니다.
 
 ## 개요
-![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/eae99cecc086002a6958e12620ec80647c89822f/.github/docs/images/screennameviewer-compose-exmaple.png)
+![sample](https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose/blob/3de0c47959bfd8fe8bdb7d21a96d9f23b0137794/.github/docs/images/screennameviewer-exmaple.png)
 
 <a href="https://github.com/DongLab-DevTools/ScreenNameViewer-For-Compose">
 	<img src="https://github.com/DongLab-DevTools/ScreenNameViewer/blob/6f05df5ca7b6f5893f05a2a53fb8e0548301b605/.github/images/screen_name_viewer_link_thumb_compose_kr.png"/>
@@ -39,14 +39,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-		maven {
-            url = uri("https://maven.pkg.github.com/DongLab-DevTools/ScreenNameViewer")
-
-            credentials {
-                username = props.getProperty("github_username")
-                password = props.getProperty("github_token")
-            }
-        }
+		maven { url = uri("https://jitpack.io") }
     }
 }
 ```
@@ -57,21 +50,9 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation 'com.donglab.devtools:screennameviewer:latestVersion'
+    implementation 'com.github.DongLab-DevTools:ScreenNameViewer:latestVersion'
 }
 ```
-
-### 3단계: 인증 설정
-
-프로젝트 루트에 `gradle.properties` 파일을 생성하고 GitHub 인증 정보를 추가하세요:
-
-```properties
-github_username=YOUR_GITHUB_USERNAME
-github_token=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
-```
-
-> [!NOTE]
-> GitHub Packages에서 다운로드하려면 `read:packages` 권한이 있는 GitHub Personal Access Token이 필요합니다.
 
 <br>
 
@@ -131,25 +112,26 @@ class MyApplication : Application() {
 ```kotlin
 initScreenNameViewer(this) {
     settings {
-        debugMode { BuildConfig.DEBUG }
-        enabled {
-            PreferenceManager.getDefaultSharedPreferences(this@MyApplication)
-                .getBoolean("debug_overlay_enabled", true)
-        }
+        debugModeCondition = BuildConfig.DEBUG
+        enableCondition = PreferenceManager
+            .getDefaultSharedPreferences(this@MyApplication)
+            .getBoolean("debug_overlay_enabled", true)
     }
+
     config {
         textStyle {
-            size = 12f                    // 텍스트 크기
-            color = Color.WHITE           // 텍스트 색상
+            size = 12f                    // Text size
+            color = Color.WHITE           // Text color
         }
         background {
-            color = Color.argb(128, 0, 0, 0)  // 배경색
-            padding = 16                      // 패딩
+            color = Color.argb(128, 0, 0, 0)  // Background color
+            padding = 16                      // Padding
         }
         position {
-            topMargin = 64                                    // 상단 여백
-            activity = Gravity.TOP or Gravity.START          // Activity 표시 위치
-            fragment = Gravity.TOP or Gravity.END            // Fragment 표시 위치
+            topMargin = 64                                    // Top margin
+            activity = Gravity.TOP or Gravity.START          // Activity display position
+            fragment = Gravity.TOP or Gravity.END            // Fragment display position
+            composeRoute = Gravity.TOP or Gravity.END        // Compose Route display position
         }
     }
 }
