@@ -38,9 +38,9 @@ This makes it easier to locate the corresponding code, speeding up debugging and
 
 ## Installation
 
-### Step 1: Add GitHub Packages repository
+### Step 1: Add Jitpack repository
 
-Add the GitHub Packages repository to your project's `settings.gradle.kts`:
+Add the Jitpack repository to your project's `settings.gradle.kts`:
 
 ```kotlin
 dependencyResolutionManagement {
