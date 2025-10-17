@@ -30,9 +30,9 @@ ScreenNameViewer는 화면 위에 클래스명을 오버레이로 표시하여, 
 
 ## 설치
 
-### 1단계: GitHub Packages 저장소 추가
+### 1단계: Jitpack 저장소 추가
 
-프로젝트의 `settings.gradle.kts`에 GitHub Packages 저장소를 추가하세요:
+프로젝트의 `settings.gradle.kts`에 Jitpack 저장소를 추가하세요:
 
 ```kotlin
 dependencyResolutionManagement {
